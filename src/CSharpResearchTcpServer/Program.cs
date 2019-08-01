@@ -13,7 +13,7 @@ namespace CSharpResearchTcpServer
     {
         const int concurrentCount = 1000;
         const int loopCount = 1000;
-        const int payloadLength = 10000;
+        const int payloadLength = 1000;
 
         static void Main(string[] args)
         {
@@ -223,7 +223,7 @@ namespace CSharpResearchTcpServer
         public readonly IPEndPoint Listen;
         protected const int headerSize = 4;
         protected const int backlog = 1000;
-        protected const int bufferSize = 10000;
+        protected const int bufferSize = 1000;
         protected const char terminate = '\n';
 
         public ServerBase(IPEndPoint endpoint)

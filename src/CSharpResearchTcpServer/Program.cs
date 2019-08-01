@@ -34,9 +34,9 @@ namespace CSharpResearchTcpServer
                         payloadLength,
                         new ServerBase[]
                         {
-                            new AwaitServer(new IPEndPoint(IPAddress.Loopback, 17001)),
-                            new AsyncSocketServer(new IPEndPoint(IPAddress.Loopback, 17002)),
-                            new ThreadPoolServer(new IPEndPoint(IPAddress.Loopback, 17003))
+                            new AwaitServer(new IPEndPoint(IPAddress.Any, 17001)),
+                            new AsyncSocketServer(new IPEndPoint(IPAddress.Any, 17002)),
+                            new ThreadPoolServer(new IPEndPoint(IPAddress.Any, 17003))
                         }
                     );
                     benchmark.BootServer().Wait();

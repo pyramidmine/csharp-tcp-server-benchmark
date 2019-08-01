@@ -23,28 +23,38 @@ namespace CSharpResearchTcpServer
 #if RELEASE
             Console.WriteLine("Build : RELEASE");
 #endif
-            var benchmark = new Benchmark(
-                loopCount,
-                concurrentCount,
-                payloadLength,
-                new ServerBase[]
-                {
-                    new AwaitServer(new IPEndPoint(IPAddress.Loopback, 17001)),
-                    new AsyncSocketServer(new IPEndPoint(IPAddress.Loopback, 17002)),
-                    new ThreadPoolServer(new IPEndPoint(IPAddress.Loopback, 17003)),
-                }
-            );
-
             if (args.Length >= 1)
             {
                 var cmd = args[0];
                 if (cmd == "server")
                 {
+                    var benchmark = new Benchmark(
+                        loopCount,
+                        concurrentCount,
+                        payloadLength,
+                        new ServerBase[]
+                        {
+                            new AwaitServer(new IPEndPoint(IPAddress.Loopback, 17001)),
+                            new AsyncSocketServer(new IPEndPoint(IPAddress.Loopback, 17002)),
+                            new ThreadPoolServer(new IPEndPoint(IPAddress.Loopback, 17003))
+                        }
+                    );
                     benchmark.BootServer().Wait();
                 }
                 else if (cmd == "client")
                 {
                     var ip = IPAddress.Parse(args[1]);
+                    var benchmark = new Benchmark(
+                        loopCount,
+                        concurrentCount,
+                        payloadLength,
+                        new ServerBase[]
+                        {
+                            new AwaitServer(new IPEndPoint(ip, 17001)),
+                            new AsyncSocketServer(new IPEndPoint(ip, 17002)),
+                            new ThreadPoolServer(new IPEndPoint(ip, 17003))
+                        }
+                    );
                     benchmark.BootClient(ip).Wait();
                 }
                 else
@@ -54,6 +64,17 @@ namespace CSharpResearchTcpServer
             }
             else
             {
+                var benchmark = new Benchmark(
+                    loopCount,
+                    concurrentCount,
+                    payloadLength,
+                    new ServerBase[]
+                    {
+                            new AwaitServer(new IPEndPoint(IPAddress.Loopback, 17001)),
+                            new AsyncSocketServer(new IPEndPoint(IPAddress.Loopback, 17002)),
+                            new ThreadPoolServer(new IPEndPoint(IPAddress.Loopback, 17003))
+                    }
+                );
                 Task.WaitAll(
                         benchmark.BootServer(),
                         Task.Delay(100).ContinueWith(_ => benchmark.BootClient(IPAddress.Loopback))
